@@ -39,7 +39,13 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Project Toko"), backgroundColor: Colors.blue),
+      appBar: AppBar(
+        title: Text(
+          "Project Toko",
+          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+        ),
+        backgroundColor: Colors.blue,
+      ),
       body: isLoading
           ? Center(child: CircularProgressIndicator())
           : Column(
