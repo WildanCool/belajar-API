@@ -14,6 +14,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   List data = [];
   bool isLoading = true;
+  String search = "";
 
   Future ambilData() async {
     var response = await http.get(Uri.parse('https://dummyjson.com/products'));
@@ -37,6 +38,12 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    List filteredData = data.where((item) {
+      final title = item['title'].toString().toLowerCase();
+      final input = search.toLowerCase();
+      return title.contains(input);
+    }).toList();
+
     return Scaffold(
       backgroundColor: Colors.grey.shade300,
       appBar: AppBar(
@@ -61,19 +68,19 @@ class _HomeState extends State<Home> {
             color: Colors.white,
             borderRadius: BorderRadius.circular(25),
           ),
-          child: Row(
-            children: [
-              SizedBox(width: 10),
-              Icon(Icons.search, color: Colors.grey),
 
-              SizedBox(width: 8),
-              Text("Cari", style: TextStyle(color: Colors.grey)),
-
-              Spacer(),
-
-              Icon(Icons.camera_alt, color: Colors.grey),
-              SizedBox(width: 10),
-            ],
+          child: TextField(
+            onChanged: (value) {
+              setState(() {
+                search = value;
+              });
+            },
+            decoration: InputDecoration(
+              hintText: "Mau Cari Apa?",
+              border: InputBorder.none,
+              prefixIcon: Icon(Icons.search, color: Colors.green),
+              suffixIcon: Icon(Icons.camera_alt, color: Colors.grey),
+            ),
           ),
         ),
 
@@ -95,7 +102,7 @@ class _HomeState extends State<Home> {
                 Pilihan(),
                 Expanded(
                   child: GridView.builder(
-                    itemCount: data.length,
+                    itemCount: filteredData.length,
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
                       crossAxisSpacing: 10,
@@ -103,7 +110,7 @@ class _HomeState extends State<Home> {
                       childAspectRatio: 0.65,
                     ),
                     itemBuilder: (context, index) {
-                      return ProductCard(item: data[index]);
+                      return ProductCard(item: filteredData[index]);
                     },
                   ),
                 ),
