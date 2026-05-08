@@ -77,11 +77,11 @@ class AppTheme {
     ),
 
     // Warna Scaffold mode terang
-    scaffoldBackgroundColor: Colors.black87,
+    scaffoldBackgroundColor: Colors.black,
 
     // Pengaturan warna AppBar
     appBarTheme: AppBarTheme(
-      backgroundColor: Color(0xff1565c0),
+      backgroundColor: const Color.fromARGB(255, 38, 38, 38),
       foregroundColor: Colors.white,
       elevation: 0,
     ),
